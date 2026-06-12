@@ -139,16 +139,79 @@
     <div class="max-w-2xl mx-auto">
      <h2 data-template-id="contact-title" class="canva-text text-center mb-4" style="color: rgb(41, 37, 36); font-weight: 700; font-style: normal; font-size: 26px;">Entre em Contacto</h2>
      <p data-template-id="contact-subtitle" class="canva-text text-center text-stone-500 mb-10" style="color: rgb(120, 113, 108); font-weight: 400; font-style: normal; font-size: 17px;">Teremos todo o gosto em preparar um programa musical à medida da sua cerimónia.</p>
-     <form id="contact-form" class="space-y-5">
-      <div><label data-template-id="label-name" class="canva-text block text-sm font-semibold text-stone-700 mb-1" for="c-name" style="color: rgb(68, 64, 60); font-weight: 600; font-style: normal; font-size: 17px;">Nome</label> <input id="c-name" type="text" required="" class="w-full border border-stone-300 rounded-sm px-4 py-2.5 focus:ring-2 focus:ring-amber-700 outline-none">
-      </div>
-      <div><label data-template-id="label-email" class="canva-text block text-sm font-semibold text-stone-700 mb-1" for="c-email" style="color: rgb(68, 64, 60); font-weight: 600; font-style: normal; font-size: 17px;">Email</label> <input id="c-email" type="email" required="" class="w-full border border-stone-300 rounded-sm px-4 py-2.5 focus:ring-2 focus:ring-amber-700 outline-none">
-      </div>
-      <div><label data-template-id="label-event" class="canva-text block text-sm font-semibold text-stone-700 mb-1" for="c-event" style="color: rgb(68, 64, 60); font-weight: 600; font-style: normal; font-size: 17px;">Tipo de Cerimónia</label> <select id="c-event" class="w-full border border-stone-300 rounded-sm px-4 py-2.5 focus:ring-2 focus:ring-amber-700 outline-none"> <option value="">Selecione...</option> <option>Casamento</option> <option>Batizado</option> <option>Funeral</option> <option>Missa</option> <option>Outro</option> </select>
-      </div>
-      <div><label data-template-id="label-message" class="canva-text block text-sm font-semibold text-stone-700 mb-1" for="c-msg" style="color: rgb(68, 64, 60); font-weight: 600; font-style: normal; font-size: 17px;">Mensagem</label> <textarea id="c-msg" rows="4" class="w-full border border-stone-300 rounded-sm px-4 py-2.5 focus:ring-2 focus:ring-amber-700 outline-none"></textarea>
-      </div><button data-template-id="contact-submit" type="submit" class="canva-button w-full py-3 rounded-sm font-sans-alt font-semibold transition hover:opacity-90" style="background: rgb(146, 64, 14); color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 17px;">Enviar Mensagem</button>
-     </form>
+<form action="https://formspree.io/f/xdavwbzg" method="POST" class="space-y-5">
+
+    <div>
+        <label data-template-id="label-name" class="canva-text block text-sm font-semibold text-stone-700 mb-1" for="c-name" style="color: rgb(68, 64, 60); font-weight: 600; font-style: normal; font-size: 17px;">
+            Nome
+        </label>
+
+        <input
+            id="c-name"
+            type="text"
+            name="nome"
+            required
+            class="w-full border border-stone-300 rounded-sm px-4 py-2.5 focus:ring-2 focus:ring-amber-700 outline-none">
+    </div>
+    <div>
+        <label data-template-id="label-email" class="canva-text block text-sm font-semibold text-stone-700 mb-1" for="c-email" style="color: rgb(68, 64, 60); font-weight: 600; font-style: normal; font-size: 17px;">
+            Email
+        </label>
+
+        <input
+            id="c-email"
+            type="email"
+            name="email"
+            required
+            class="w-full border border-stone-300 rounded-sm px-4 py-2.5 focus:ring-2 focus:ring-amber-700 outline-none">
+    </div>
+
+    <div>
+        <label data-template-id="label-event" class="canva-text block text-sm font-semibold text-stone-700 mb-1" for="c-event" style="color: rgb(68, 64, 60); font-weight: 600; font-style: normal; font-size: 17px;">
+            Tipo de Cerimónia
+        </label>
+
+        <select
+            id="c-event"
+            name="tipo_cerimonia"
+            class="w-full border border-stone-300 rounded-sm px-4 py-2.5 focus:ring-2 focus:ring-amber-700 outline-none">
+
+            <option value="">Selecione...</option>
+            <option>Casamento</option>
+            <option>Batizado</option>
+            <option>Funeral</option>
+            <option>Missa</option>
+            <option>Outro</option>
+
+        </select>
+    </div>
+
+    <div>
+        <label data-template-id="label-message" class="canva-text block text-sm font-semibold text-stone-700 mb-1" for="c-msg" style="color: rgb(68, 64, 60); font-weight: 600; font-style: normal; font-size: 17px;">
+            Mensagem
+        </label>
+
+        <textarea
+            id="c-msg"
+            name="mensagem"
+            rows="4"
+            required
+            class="w-full border border-stone-300 rounded-sm px-4 py-2.5 focus:ring-2 focus:ring-amber-700 outline-none"></textarea>
+    </div>
+
+    <input type="hidden" name="_subject" value="Novo pedido através do site LumenVox">
+
+    <button
+        data-template-id="contact-submit"
+        type="submit"
+        class="canva-button w-full py-3 rounded-sm font-sans-alt font-semibold transition hover:opacity-90"
+        style="background: rgb(146, 64, 14); color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 17px;">
+
+        Enviar Mensagem
+
+    </button>
+
+</form>
      <div id="form-success" class="hidden mt-6 p-4 bg-green-50 border border-green-200 rounded-sm text-center text-green-800 font-semibold">
       Mensagem enviada com sucesso! Entraremos em contacto brevemente.
      </div>
@@ -215,12 +278,6 @@
         if (audioCtx.state === 'suspended') audioCtx.resume();
         playMelody(btn.dataset.track, btn);
       });
-    });
-
-    document.getElementById('contact-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      document.getElementById('contact-form').classList.add('hidden');
-      document.getElementById('form-success').classList.remove('hidden');
     });
   </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0a377778dd9e228',t:'MTc4MTIxMDgwMQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
