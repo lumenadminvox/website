@@ -224,62 +224,56 @@
   </footer>
   <script src="/_sdk/editing_sdk.js"></script>
   <script>
-    lucide.createIcons();
+  lucide.createIcons();
 
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    let currentOsc = null;
-    let currentBtn = null;
+  const tracks = {
+    'ave-maria': 'audio/Eismeaqui-MFrisina.mp3',
+    'panis-angelicus': 'audio/panis-angelicus.mp3',
+    'aleluia': 'audio/aleluia.mp3'
+  };
 
-    const frequencies = {
-      'ave-maria': [440, 494, 523, 587, 523],
-      'panis-angelicus': [523, 587, 659, 698, 659],
-      'aleluia': [392, 440, 494, 523, 587]
-    };
+  let currentAudio = null;
+  let currentBtn = null;
 
-    function playMelody(track, btn) {
-      if (currentBtn === btn && currentOsc) { stopCurrent(); return; }
-      if (currentOsc) { stopCurrent(); }
+  function stopCurrent() {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+      currentAudio = null;
+    }
+
+    if (currentBtn) {
+      currentBtn.innerHTML =
+        '<i data-lucide="play" style="width:20px;height:20px;"></i>';
+      lucide.createIcons();
+      currentBtn = null;
+    }
+  }
+
+  document.querySelectorAll('.audio-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+
+      if (currentBtn === btn && currentAudio) {
+        stopCurrent();
+        return;
+      }
+
+      stopCurrent();
+
       currentBtn = btn;
-      btn.classList.add('playing');
-      btn.innerHTML = '<i data-lucide="pause" style="width:20px;height:20px;"></i>';
+      currentAudio = new Audio(tracks[btn.dataset.track]);
+
+      btn.innerHTML =
+        '<i data-lucide="pause" style="width:20px;height:20px;"></i>';
       lucide.createIcons();
 
-      const notes = frequencies[track] || frequencies['ave-maria'];
-      let noteIndex = 0;
+      currentAudio.play();
 
-      function playNote() {
-        if (noteIndex >= notes.length * 3) { stopCurrent(); return; }
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.value = notes[noteIndex % notes.length];
-        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.7);
-        osc.connect(gain).connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.75);
-        noteIndex++;
-        currentOsc = setTimeout(playNote, 800);
-      }
-      playNote();
-    }
-
-    function stopCurrent() {
-      if (currentOsc) { clearTimeout(currentOsc); currentOsc = null; }
-      if (currentBtn) {
-        currentBtn.classList.remove('playing');
-        currentBtn.innerHTML = '<i data-lucide="play" style="width:20px;height:20px;"></i>';
-        lucide.createIcons();
-        currentBtn = null;
-      }
-    }
-
-    document.querySelectorAll('.audio-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        playMelody(btn.dataset.track, btn);
+      currentAudio.addEventListener('ended', () => {
+        stopCurrent();
       });
     });
-  </script>
+  });
+</script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0a377778dd9e228',t:'MTc4MTIxMDgwMQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body></html>
