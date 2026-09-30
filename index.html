@@ -520,7 +520,7 @@
       color: #bf9b40;
     }
 
-    /* Etiqueta que serve de único cabeçalho da secção (Sobre, Serviços, Repertório) */
+    /* Etiqueta que serve de cabeçalho de todas as secções */
     .section-label {
       display: flex;
       align-items: center;
@@ -1218,9 +1218,7 @@
     <section id="galeria" data-template-id="gallery-section" class="canva-section py-16 px-4"
       style="background: rgb(245, 240, 228);">
       <div class="max-w-6xl mx-auto">
-        <p class="section-eyebrow text-center">Momentos</p>
-        <h2 data-template-id="gallery-title" class="canva-text text-center mt-3 mb-10"
-          style="color: rgb(41, 37, 36); font-weight: 700; font-style: normal; font-size: 26px;">Galeria</h2>
+        <h2 data-template-id="gallery-title" class="canva-text section-label section-label--on-light mb-10">Momentos</h2>
         <!-- Para adicionar fotos: coloque o ficheiro em images/galeria/ e copie uma linha <img class="gallery-slide"> -->
         <div class="gallery">
           <div id="carousel" tabindex="0" aria-label="Galeria de fotos" class="gallery-track no-scrollbar">
@@ -1252,8 +1250,8 @@
     </div><!-- Contacto -->
     <section id="contacto" class="py-16 px-4">
       <div class="max-w-2xl mx-auto">
-        <h2 data-template-id="contact-title" class="canva-text text-center mb-3"
-          style="color: rgb(41, 37, 36); font-weight: 700; font-style: normal; font-size: 30px;">Entre em Contacto</h2>
+        <h2 data-template-id="contact-title" class="canva-text section-label section-label--on-light mb-4">Entre em
+          contacto</h2>
         <p data-template-id="contact-subtitle" class="canva-text text-center text-stone-500 mb-10"
           style="color: rgb(120, 113, 108); font-weight: 400; font-style: normal; font-size: 17px;">Teremos todo o gosto
           em preparar um programa musical à medida da sua cerimónia.</p>
