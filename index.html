@@ -19,8 +19,219 @@
       font-family: 'Raleway', sans-serif;
     }
 
+    /* Navegação */
+    .site-nav {
+      background: rgba(28, 25, 23, 0.9);
+      border-bottom: 1px solid rgba(133, 77, 14, 0.3);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      transition: background-color .3s ease, border-color .3s ease;
+    }
+
+    /* Transparente enquanto está por cima do cabeçalho (classe posta por JS) */
+    .site-nav.is-top {
+      background: transparent;
+      border-bottom-color: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+
+    .nav-logo {
+      transition: opacity .3s ease, visibility .3s;
+    }
+
+    .site-nav.is-top .nav-logo {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .nav-link {
+      position: relative;
+      padding: 0.25rem 0;
+      border-radius: 0.25rem;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -2px;
+      height: 1px;
+      background: #bf9b40;
+      transform: scaleX(0);
+      transition: transform .3s ease;
+    }
+
+    .nav-link:hover::after {
+      transform: scaleX(1);
+    }
+
+    .nav-link:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(191, 155, 64, 0.35);
+    }
+
+    /* Cabeçalho (hero) */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      height: 100svh;
+      min-height: 34rem;
+      overflow: hidden;
+      background: #1c1917;
+    }
+
+    .hero-img {
+      animation: hero-fade 1.2s ease both;
+    }
+
     .hero-overlay {
-      background: linear-gradient(to bottom, rgba(10, 8, 5, 0.5), rgba(10, 8, 5, 0.7));
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 48%, rgba(10, 8, 5, 0.15), rgba(10, 8, 5, 0.6)),
+        linear-gradient(to bottom, rgba(10, 8, 5, 0.55) 0%, rgba(10, 8, 5, 0.2) 35%, rgba(10, 8, 5, 0.8) 100%);
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      /* compensa a navegação fixa */
+      padding-top: 4rem;
+    }
+
+    /* Assinatura da marca, por baixo do logótipo; aparece em fade depois dele */
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-top: 1.75rem;
+      font-size: clamp(0.72rem, 1.4vw, 0.9rem);
+      text-shadow: 0 2px 12px rgba(10, 8, 5, 0.6);
+      animation: hero-fade 1s ease .6s both;
+    }
+
+    .hero-eyebrow::before,
+    .hero-eyebrow::after {
+      content: '';
+      flex-shrink: 0;
+      width: 2.5rem;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #bf9b40);
+    }
+
+    .hero-eyebrow::after {
+      background: linear-gradient(to left, transparent, #bf9b40);
+    }
+
+    /* Em telemóveis pequenos a frase ocupa a largura toda: sem traços */
+    @media (max-width: 480px) {
+
+      .hero-eyebrow::before,
+      .hero-eyebrow::after {
+        display: none;
+      }
+    }
+
+    .hero-logo {
+      filter: drop-shadow(0 4px 24px rgba(10, 8, 5, 0.45));
+      animation: hero-rise .9s cubic-bezier(.2, .7, .2, 1) both;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      left: 50%;
+      bottom: 1.75rem;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.4rem;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(231, 229, 228, 0.75);
+      transition: color .2s;
+      animation: hero-fade 1s ease 1.1s both;
+    }
+
+    .hero-scroll:hover {
+      color: #d4b86a;
+    }
+
+    .hero-scroll:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(191, 155, 64, 0.35);
+    }
+
+    .hero-scroll svg {
+      width: 18px;
+      height: 18px;
+      animation: hero-bob 2.2s ease-in-out infinite;
+    }
+
+    @keyframes hero-rise {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @keyframes hero-fade {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes hero-bob {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(5px);
+      }
+    }
+
+    /* Em ecrãs baixos (telemóvel deitado) a seta tocaria no logótipo */
+    @media (max-height: 640px) {
+      .hero-scroll {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .hero-img,
+      .hero-logo,
+      .hero-eyebrow,
+      .hero-scroll,
+      .hero-scroll svg {
+        animation: none;
+      }
+
+      .site-nav,
+      .nav-logo,
+      .nav-link::after {
+        transition: none;
+      }
     }
 
     /* Repertório */
@@ -33,7 +244,7 @@
       overflow: hidden;
     }
 
-    .track + .track {
+    .track+.track {
       border-top: 1px solid #efe7d3;
     }
 
@@ -61,8 +272,8 @@
       align-items: center;
       justify-content: center;
       border-radius: 9999px;
-      border: 1.5px solid rgb(146, 64, 14);
-      color: rgb(146, 64, 14);
+      border: 1.5px solid #bf9b40;
+      color: #bf9b40;
       transition: background-color .2s, color .2s;
     }
 
@@ -74,7 +285,7 @@
 
     .track-btn:hover,
     .track.is-active .track-btn {
-      background: rgb(146, 64, 14);
+      background: #bf9b40;
       color: #fff;
     }
 
@@ -115,7 +326,7 @@
       font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #a16207;
+      color: #bf9b40;
     }
 
     .track-composer {
@@ -224,9 +435,243 @@
       font-size: 1.4rem;
     }
 
-    .programme-border {
-      border: 2px solid #bf9b40;
-      box-shadow: inset 0 0 0 4px #faf6ec, inset 0 0 0 5px #d4b86a33;
+    /* Sobre */
+    .about-media {
+      position: relative;
+      padding: 0 1rem 1rem 0;
+    }
+
+    .about-media::before {
+      content: '';
+      position: absolute;
+      inset: 1rem 0 0 1rem;
+      border: 1px solid #bf9b40;
+      border-radius: 1rem;
+    }
+
+    .about-photo {
+      position: relative;
+      border-radius: 1rem;
+      box-shadow: 0 1px 2px rgba(60, 40, 10, 0.04), 0 20px 40px -16px rgba(60, 40, 10, 0.35);
+    }
+
+    .about-lead {
+      padding-left: 1.25rem;
+      border-left: 2px solid #bf9b40;
+      color: #292524;
+      font-size: 1.25rem;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    .about-text {
+      color: #57534e;
+      font-size: 17px;
+      line-height: 1.625;
+    }
+
+    .about-values {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 1.75rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #efe7d3;
+    }
+
+    .about-value {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #57534e;
+    }
+
+    .about-value-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      border: 1px solid rgba(191, 155, 64, 0.45);
+      background: rgba(191, 155, 64, 0.08);
+      color: #a16207;
+    }
+
+    .about-value-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 1.5;
+    }
+
+    /* Serviços */
+    .section-eyebrow {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #bf9b40;
+    }
+
+    /* Etiqueta que serve de único cabeçalho da secção (Sobre, Serviços, Repertório) */
+    .section-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.9rem;
+      font-family: 'Raleway', sans-serif;
+      font-size: clamp(0.85rem, 1.6vw, 0.95rem);
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-align: center;
+      color: #bf9b40;
+    }
+
+    .section-label::before,
+    .section-label::after {
+      content: '';
+      flex: 0 0 2.5rem;
+      height: 1px;
+    }
+
+    /* compensa o letter-spacing a seguir à última letra, para os filetes ficarem à mesma distância */
+    .section-label::before {
+      margin-right: 0.3em;
+      background: linear-gradient(to right, transparent, #bf9b40);
+    }
+
+    .section-label::after {
+      background: linear-gradient(to left, transparent, #bf9b40);
+    }
+
+    .section-label--start {
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    @media (max-width: 480px) {
+
+      .section-label::before,
+      .section-label::after {
+        flex-basis: 1.5rem;
+      }
+    }
+
+    .section-label--start::before {
+      background: #bf9b40;
+    }
+
+    .section-label--start::after {
+      display: none;
+    }
+
+    /* sobre fundo claro, texto em dourado escuro (contraste 4.8:1); os filetes mantêm o dourado */
+    .section-label--on-light {
+      color: #a16207;
+    }
+
+    .service-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.75rem 1.9rem;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01));
+      border: 1px solid rgba(191, 155, 64, 0.22);
+      border-radius: 1rem;
+      overflow: hidden;
+      transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 2px;
+      background: linear-gradient(to right, transparent, #bf9b40, transparent);
+      opacity: 0.55;
+      transition: opacity .3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(212, 184, 106, 0.55);
+      box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(191, 155, 64, 0.08);
+    }
+
+    .service-card:hover::before {
+      opacity: 1;
+    }
+
+    .service-icon {
+      width: 3.25rem;
+      height: 3.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      border: 1px solid rgba(191, 155, 64, 0.45);
+      background: rgba(191, 155, 64, 0.08);
+      color: #d4b86a;
+      transition: background-color .3s ease, color .3s ease, border-color .3s ease;
+    }
+
+    .service-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke-width: 1.5;
+    }
+
+    .service-card:hover .service-icon {
+      background: #bf9b40;
+      border-color: #bf9b40;
+      color: #1c1917;
+    }
+
+    .service-num {
+      position: absolute;
+      top: 1.6rem;
+      right: 1.75rem;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: rgba(191, 155, 64, 0.5);
+    }
+
+    .service-title {
+      margin-top: 1.5rem;
+      color: #bf9b40;
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .service-desc {
+      margin-top: 0.6rem;
+      color: #d6d3d1;
+      font-size: 1.05rem;
+      line-height: 1.55;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .service-card,
+      .service-icon {
+        transition: none;
+      }
+
+      .service-card:hover {
+        transform: none;
+      }
     }
 
     html {
@@ -236,6 +681,134 @@
     @media (prefers-reduced-motion: reduce) {
       html {
         scroll-behavior: auto;
+      }
+    }
+
+    /* Galeria */
+    .gallery-track {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      /* margem lateral para a 1.ª e a última foto ficarem centradas; em baixo, espaço para a sombra */
+      padding: 0.5rem 7.5% 2rem;
+      border-radius: 1rem;
+      outline: none;
+    }
+
+    .gallery-track:focus-visible {
+      box-shadow: 0 0 0 4px rgba(191, 155, 64, 0.35);
+    }
+
+    .gallery-slide {
+      flex-shrink: 0;
+      width: 85%;
+      height: 18rem;
+      object-fit: cover;
+      scroll-snap-align: center;
+      border-radius: 1rem;
+      box-shadow: 0 1px 2px rgba(60, 40, 10, 0.04), 0 20px 40px -16px rgba(60, 40, 10, 0.35);
+      opacity: 0.45;
+      transform: scale(0.94);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+
+    .gallery-slide:not(.is-active) {
+      cursor: pointer;
+    }
+
+    .gallery-slide.is-active {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (min-width: 768px) {
+      .gallery-track {
+        padding-left: 16.666667%;
+        padding-right: 16.666667%;
+      }
+
+      .gallery-slide {
+        width: 66.666667%;
+        height: 28rem;
+      }
+    }
+
+    .gallery-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .gallery-btn {
+      width: 2.5rem;
+      height: 2.5rem;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      border: 1.5px solid #bf9b40;
+      color: #a16207;
+      transition: background-color .2s, color .2s;
+    }
+
+    .gallery-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .gallery-btn:hover {
+      background: #bf9b40;
+      color: #fff;
+    }
+
+    .car-dots {
+      display: flex;
+      gap: 0.15rem;
+    }
+
+    /* Botão de 1.5rem para ser fácil de tocar; o ponto visível tem 10px */
+    .car-dot {
+      width: 1.5rem;
+      height: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+    }
+
+    .car-dot::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 9999px;
+      background: #d6d3d1;
+      transition: background-color .2s, transform .2s;
+    }
+
+    .car-dot:hover::before {
+      background: #d4b86a;
+    }
+
+    .car-dot.is-active::before {
+      background: rgb(146, 64, 14);
+      transform: scale(1.2);
+    }
+
+    .gallery-btn:focus-visible,
+    .car-dot:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(191, 155, 64, 0.35);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .gallery-slide,
+      .gallery-btn,
+      .car-dot::before {
+        transition: none;
       }
     }
 
@@ -279,6 +852,15 @@
       background: #fff;
       border-color: #bf9b40;
       box-shadow: 0 0 0 4px rgba(191, 155, 64, 0.18);
+    }
+
+    .field::placeholder,
+    select.field:has(option[value=""]:checked) {
+      color: #a8a29e;
+    }
+
+    select.field option {
+      color: #292524;
     }
 
     select.field {
@@ -326,47 +908,49 @@
 </head>
 
 <body data-template-id="__page-root" class="w-full min-h-screen" style="background: rgb(250, 246, 236);">
-  <nav class="fixed top-0 w-full z-50 bg-stone-900/90 backdrop-blur-sm border-b border-yellow-800/30">
+  <nav id="site-nav" class="site-nav fixed top-0 w-full z-50">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="#" class="flex items-center"><img src="images/white_lettering_logo.png" alt="LumenVox"
+      <a href="#" class="nav-logo flex items-center"><img src="images/white_lettering_logo.png" alt="LumenVox"
           class="h-10 w-auto"></a>
       <div class="hidden md:flex gap-6 font-sans-alt text-sm"><a href="#sobre"
-          class="text-stone-300 hover:text-amber-200 transition">Sobre</a> <a href="#servicos"
-          class="text-stone-300 hover:text-amber-200 transition">Serviços</a> <a href="#repertorio"
-          class="text-stone-300 hover:text-amber-200 transition">Repertório</a> <a href="#galeria"
-          class="text-stone-300 hover:text-amber-200 transition">Galeria</a> <a href="#contacto"
-          class="text-stone-300 hover:text-amber-200 transition">Contacto</a>
+          class="nav-link text-stone-300 hover:text-amber-200 transition">Sobre</a> <a href="#servicos"
+          class="nav-link text-stone-300 hover:text-amber-200 transition">Serviços</a> <a href="#repertorio"
+          class="nav-link text-stone-300 hover:text-amber-200 transition">Repertório</a> <a href="#galeria"
+          class="nav-link text-stone-300 hover:text-amber-200 transition">Galeria</a> <a href="#contacto"
+          class="nav-link text-stone-300 hover:text-amber-200 transition">Contacto</a>
       </div>
     </div>
   </nav>
-  <header id="hero" class="relative w-full overflow-hidden" style="height: calc(85 * min(var(--vh, 1vh), 1vh));"><img
-      id="hero-img" data-template-id="hero-image" class="canva-image absolute inset-0 w-full h-full object-cover"
-      style="object-position: center 0%;" loading="lazy" src="images/header_01.png">
+  <header id="hero" class="hero"><img id="hero-img" data-template-id="hero-image"
+      class="canva-image hero-img absolute inset-0 w-full h-full object-cover" style="object-position: center 0%;"
+      fetchpriority="high" src="images/header_01.png" alt="">
     <div id="hero-overlay"
       class="hero-overlay absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-      <img id="hero-logo" src="images/white_lettering_logo.png" alt="LumenVox" class="w-5/6 max-w-3xl h-auto">
-      <p data-template-id="hero-subtitle" class="canva-text text-stone-200 mt-4 max-w-xl"
-        style="color: rgb(231, 229, 228); font-weight: 400; font-style: normal; font-size: 20px;">Música para os
-        momentos mais importantes.</p>
+      <div id="hero-content" class="hero-content">
+        <img id="hero-logo" src="images/white_lettering_logo.png" alt="LumenVox"
+          class="hero-logo w-5/6 max-w-3xl h-auto">
+        <p data-template-id="hero-subtitle" class="canva-text section-eyebrow hero-eyebrow">Música para os
+          momentos mais importantes</p>
+      </div>
     </div>
+    <a href="#sobre" class="hero-scroll">Descobrir<i data-lucide="chevron-down"></i></a>
   </header>
   <main class="w-full"><!-- Ornament -->
     <div class="ornament">
       <span class="ornament-symbol">✦</span>
     </div><!-- Sobre -->
     <section id="sobre" class="py-16 px-4">
-      <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center"><img data-template-id="about-image"
-          class="canva-image w-full h-80 object-cover rounded-sm shadow-xl programme-border" loading="lazy"
-          src="images/group_photo.webp">
+      <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        <div class="about-media">
+          <img data-template-id="about-image" class="canva-image about-photo w-full h-80 md:h-[26rem] object-cover"
+            loading="lazy" src="images/group_photo.webp" alt="Fotografia do grupo LumenVox">
+        </div>
         <div>
-          <h2 data-template-id="about-title" class="canva-text text-stone-800"
-            style="color: rgb(41, 37, 36); font-weight: 700; font-style: normal; font-size: 26px;">Sobre Nós</h2>
-          <p data-template-id="about-text" class="canva-text text-stone-600 mt-4 leading-relaxed"
-            style="color: rgb(87, 83, 78); font-weight: 400; font-style: normal; font-size: 17px;">
+          <h2 data-template-id="about-title" class="canva-text section-label section-label--start section-label--on-light mb-6">Quem somos</h2>
+          <p data-template-id="about-text" class="canva-text about-lead">
             LumenVox é um grupo unido pela paixão pela música e pela vontade de transformar momentos em emoção.
           </p>
-          <p class="canva-text text-stone-600 mt-4 leading-relaxed"
-            style="color: rgb(87, 83, 78); font-weight: 400; font-style: normal; font-size: 17px;">
+          <p class="canva-text about-text mt-6">
             Acreditamos que a música é luz, expressão da alma e uma memória que permanece no tempo. Com sensibilidade,
             entrega e harmonia, colocamo-nos ao serviço de celebrações únicas, envolvendo todos numa experiência
             intensa, autêntica e verdadeiramente inesquecível.
@@ -380,54 +964,36 @@
     <section id="servicos" data-template-id="services-section" class="canva-section py-16 px-4"
       style="background: rgb(28, 25, 23);">
       <div class="max-w-6xl mx-auto">
-        <h2 data-template-id="services-title" class="canva-text text-center mb-12"
-          style="color: rgb(254, 243, 199); font-weight: 700; font-style: normal; font-size: 26px;">Os Nossos Serviços
-        </h2>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div data-template-id="svc-casamentos" class="canva-card p-6 rounded-sm text-center programme-border"
-            style="background: rgb(41, 37, 36);">
-            <div class="text-4xl mb-3">
-              💒
-            </div>
-            <h3 data-template-id="svc-casamentos-title" class="canva-text font-bold"
-              style="color: rgb(253, 230, 138); font-weight: 700; font-style: normal; font-size: 20px;">Casamentos</h3>
-            <p data-template-id="svc-casamentos-desc" class="canva-text mt-2 text-sm"
-              style="color: rgb(214, 211, 209); font-weight: 400; font-style: normal; font-size: 17px;">Repertório
+        <h2 data-template-id="services-title" class="canva-text section-label mb-12">O que fazemos</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <article data-template-id="svc-casamentos" class="canva-card service-card">
+            <span class="service-num">01</span>
+            <div class="service-icon"><i data-lucide="church"></i></div>
+            <h3 data-template-id="svc-casamentos-title" class="canva-text service-title">Casamentos</h3>
+            <p data-template-id="svc-casamentos-desc" class="canva-text service-desc">Repertório
               personalizado para a cerimónia do seu enlace matrimonial.</p>
-          </div>
-          <div data-template-id="svc-batizados" class="canva-card p-6 rounded-sm text-center programme-border"
-            style="background: rgb(41, 37, 36);">
-            <div class="text-4xl mb-3">
-              🕊️
-            </div>
-            <h3 data-template-id="svc-batizados-title" class="canva-text font-bold"
-              style="color: rgb(253, 230, 138); font-weight: 700; font-style: normal; font-size: 20px;">Batizados</h3>
-            <p data-template-id="svc-batizados-desc" class="canva-text mt-2 text-sm"
-              style="color: rgb(214, 211, 209); font-weight: 400; font-style: normal; font-size: 17px;">Cânticos de
+          </article>
+          <article data-template-id="svc-batizados" class="canva-card service-card">
+            <span class="service-num">02</span>
+            <div class="service-icon"><i data-lucide="bird"></i></div>
+            <h3 data-template-id="svc-batizados-title" class="canva-text service-title">Batizados</h3>
+            <p data-template-id="svc-batizados-desc" class="canva-text service-desc">Cânticos de
               alegria e bênção para acolher os mais pequenos.</p>
-          </div>
-          <div data-template-id="svc-funerais" class="canva-card p-6 rounded-sm text-center programme-border"
-            style="background: rgb(41, 37, 36);">
-            <div class="text-4xl mb-3">
-              💍
-            </div>
-            <h3 data-template-id="svc-funerais-title" class="canva-text font-bold"
-              style="color: rgb(253, 230, 138); font-weight: 700; font-style: normal; font-size: 20px;">Bodas</h3>
-            <p data-template-id="svc-funerais-desc" class="canva-text mt-2 text-sm"
-              style="color: rgb(214, 211, 209); font-weight: 400; font-style: normal; font-size: 17px;">Música e
+          </article>
+          <article data-template-id="svc-funerais" class="canva-card service-card">
+            <span class="service-num">03</span>
+            <div class="service-icon"><i data-lucide="gem"></i></div>
+            <h3 data-template-id="svc-funerais-title" class="canva-text service-title">Bodas</h3>
+            <p data-template-id="svc-funerais-desc" class="canva-text service-desc">Música e
               celebração para assinalar a renovação do amor e dos votos de uma vida partilhada.</p>
-          </div>
-          <div data-template-id="svc-missas" class="canva-card p-6 rounded-sm text-center programme-border"
-            style="background: rgb(41, 37, 36);">
-            <div class="text-4xl mb-3">
-              ⛪
-            </div>
-            <h3 data-template-id="svc-missas-title" class="canva-text font-bold"
-              style="color: rgb(253, 230, 138); font-weight: 700; font-style: normal; font-size: 20px;">Outros</h3>
-            <p data-template-id="svc-missas-desc" class="canva-text mt-2 text-sm"
-              style="color: rgb(214, 211, 209); font-weight: 400; font-style: normal; font-size: 17px;">Música
+          </article>
+          <article data-template-id="svc-missas" class="canva-card service-card">
+            <span class="service-num">04</span>
+            <div class="service-icon"><i data-lucide="sparkles"></i></div>
+            <h3 data-template-id="svc-missas-title" class="canva-text service-title">Outros</h3>
+            <p data-template-id="svc-missas-desc" class="canva-text service-desc">Música
               personalizada para momentos especiais.</p>
-          </div>
+          </article>
         </div>
       </div>
     </section>
@@ -436,9 +1002,8 @@
     </div><!-- Repertório -->
     <section id="repertorio" class="py-16 px-4">
       <div class="max-w-3xl mx-auto">
-        <h2 data-template-id="audio-title" class="canva-text text-center mb-4"
-          style="color: rgb(41, 37, 36); font-weight: 700; font-style: normal; font-size: 26px;">Ouça o Nosso Repertório
-        </h2>
+        <h2 data-template-id="audio-title" class="canva-text section-label section-label--on-light mb-4">Ouça o nosso
+          repertório</h2>
         <p data-template-id="audio-subtitle" class="canva-text text-center text-stone-500 mb-10"
           style="color: rgb(120, 113, 108); font-weight: 400; font-style: normal; font-size: 17px;">Algumas amostras do
           nosso trabalho em cerimónias</p>
@@ -446,25 +1011,35 @@
           <li class="track" data-src="audio/Eis_me_aqui_Marco_Frisina-.mp3">
             <div class="track-row">
               <button type="button" class="track-btn" aria-label="Ouvir Eis-me Aqui">
-                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" /></svg>
-                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /></svg>
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
               </button>
               <div class="flex-1 min-w-0">
                 <p data-template-id="track-1-title" class="track-title">Eis-me Aqui</p>
-                <p class="track-meta"><span class="track-tag">Entrada</span><span class="track-composer">Marco Frisina</span></p>
+                <p class="track-meta"><span class="track-tag">Entrada</span><span class="track-composer">Marco
+                    Frisina</span></p>
               </div>
               <span class="track-duration">–:––</span>
             </div>
             <div class="track-progress" hidden>
               <span class="track-time">0:00</span>
-              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0" aria-label="Posição da faixa">
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
             </div>
           </li>
           <li class="track" data-src="audio/Salmo_Felizes_Os_que_Que_Seguem_os_seus_caminhos-.mp3">
             <div class="track-row">
               <button type="button" class="track-btn" aria-label="Ouvir Felizes os que amam o Senhor">
-                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" /></svg>
-                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /></svg>
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
               </button>
               <div class="flex-1 min-w-0">
                 <p data-template-id="track-2-title" class="track-title">Felizes os que amam o Senhor</p>
@@ -474,14 +1049,19 @@
             </div>
             <div class="track-progress" hidden>
               <span class="track-time">0:00</span>
-              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0" aria-label="Posição da faixa">
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
             </div>
           </li>
           <li class="track" data-src="audio/Salmo_Ditosos_os_que_teme_os_seus_caminhos-.mp3">
             <div class="track-row">
               <button type="button" class="track-btn" aria-label="Ouvir Ditosos os que temem o Senhor">
-                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" /></svg>
-                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /></svg>
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
               </button>
               <div class="flex-1 min-w-0">
                 <p data-template-id="track-3-title" class="track-title">Ditosos os que temem o Senhor</p>
@@ -491,31 +1071,42 @@
             </div>
             <div class="track-progress" hidden>
               <span class="track-time">0:00</span>
-              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0" aria-label="Posição da faixa">
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
             </div>
           </li>
           <li class="track" data-src="audio/Aleluia_J.Roux.mp3">
             <div class="track-row">
               <button type="button" class="track-btn" aria-label="Ouvir Aleluia">
-                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" /></svg>
-                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /></svg>
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
               </button>
               <div class="flex-1 min-w-0">
                 <p data-template-id="track-4-title" class="track-title">Aleluia</p>
-                <p class="track-meta"><span class="track-tag">Aclamação</span><span class="track-composer">J. Roux</span></p>
+                <p class="track-meta"><span class="track-tag">Aclamação</span><span class="track-composer">J.
+                    Roux</span></p>
               </div>
               <span class="track-duration">–:––</span>
             </div>
             <div class="track-progress" hidden>
               <span class="track-time">0:00</span>
-              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0" aria-label="Posição da faixa">
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
             </div>
           </li>
           <li class="track" data-src="audio/Ofertório_Entrega.mp3">
             <div class="track-row">
               <button type="button" class="track-btn" aria-label="Ouvir Entrega">
-                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" /></svg>
-                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /></svg>
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
               </button>
               <div class="flex-1 min-w-0">
                 <p data-template-id="track-5-title" class="track-title">Entrega</p>
@@ -525,14 +1116,19 @@
             </div>
             <div class="track-progress" hidden>
               <span class="track-time">0:00</span>
-              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0" aria-label="Posição da faixa">
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
             </div>
           </li>
           <li class="track" data-src="audio/Cordeiro_De_Deus.mp3">
             <div class="track-row">
               <button type="button" class="track-btn" aria-label="Ouvir Cordeiro de Deus">
-                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" /></svg>
-                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /></svg>
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
               </button>
               <div class="flex-1 min-w-0">
                 <p data-template-id="track-6-title" class="track-title">Cordeiro de Deus</p>
@@ -542,14 +1138,19 @@
             </div>
             <div class="track-progress" hidden>
               <span class="track-time">0:00</span>
-              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0" aria-label="Posição da faixa">
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
             </div>
           </li>
           <li class="track" data-src="audio/Pelos_prados_e_campinas-.mp3">
             <div class="track-row">
               <button type="button" class="track-btn" aria-label="Ouvir Pelos prados e campinas">
-                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" /></svg>
-                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /></svg>
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
               </button>
               <div class="flex-1 min-w-0">
                 <p data-template-id="track-7-title" class="track-title">Pelos prados e campinas</p>
@@ -559,31 +1160,42 @@
             </div>
             <div class="track-progress" hidden>
               <span class="track-time">0:00</span>
-              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0" aria-label="Posição da faixa">
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
             </div>
           </li>
           <li class="track" data-src="audio/Avé_Maria_de_Schubert.mp3">
             <div class="track-row">
               <button type="button" class="track-btn" aria-label="Ouvir Ave Maria">
-                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" /></svg>
-                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /></svg>
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
               </button>
               <div class="flex-1 min-w-0">
                 <p data-template-id="track-8-title" class="track-title">Ave Maria</p>
-                <p class="track-meta"><span class="track-tag">Homenagem a Maria</span><span class="track-composer">Schubert</span></p>
+                <p class="track-meta"><span class="track-tag">Homenagem a Maria</span><span
+                    class="track-composer">Schubert</span></p>
               </div>
               <span class="track-duration">–:––</span>
             </div>
             <div class="track-progress" hidden>
               <span class="track-time">0:00</span>
-              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0" aria-label="Posição da faixa">
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
             </div>
           </li>
           <li class="track" data-src="audio/Construi_Vossa_Casa_Sobre_a_Rocha-.mp3">
             <div class="track-row">
               <button type="button" class="track-btn" aria-label="Ouvir Construí vossa casa sobre a rocha">
-                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" /></svg>
-                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /></svg>
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
               </button>
               <div class="flex-1 min-w-0">
                 <p data-template-id="track-9-title" class="track-title">Construí vossa casa sobre a rocha</p>
@@ -593,7 +1205,8 @@
             </div>
             <div class="track-progress" hidden>
               <span class="track-time">0:00</span>
-              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0" aria-label="Posição da faixa">
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
             </div>
           </li>
         </ol>
@@ -605,41 +1218,33 @@
     <section id="galeria" data-template-id="gallery-section" class="canva-section py-16 px-4"
       style="background: rgb(245, 240, 228);">
       <div class="max-w-6xl mx-auto">
-        <h2 data-template-id="gallery-title" class="canva-text text-center mb-10"
+        <p class="section-eyebrow text-center">Momentos</p>
+        <h2 data-template-id="gallery-title" class="canva-text text-center mt-3 mb-10"
           style="color: rgb(41, 37, 36); font-weight: 700; font-style: normal; font-size: 26px;">Galeria</h2>
-        <!-- Para adicionar fotos: coloque o ficheiro em images/galeria/ e copie uma linha <img> -->
-        <div class="relative">
-          <div id="carousel" tabindex="0" aria-label="Galeria de fotos"
-            class="relative flex overflow-x-auto snap-x snap-mandatory gap-4 no-scrollbar outline-none">
-            <img
-              class="snap-center shrink-0 w-full md:w-2/3 h-72 md:h-[28rem] object-cover rounded-sm shadow-md programme-border"
-              src="images/group_photo.webp" alt="O grupo LumenVox">
-            <img
-              class="snap-center shrink-0 w-full md:w-2/3 h-72 md:h-[28rem] object-cover rounded-sm shadow-md programme-border"
-              loading="lazy"
+        <!-- Para adicionar fotos: coloque o ficheiro em images/galeria/ e copie uma linha <img class="gallery-slide"> -->
+        <div class="gallery">
+          <div id="carousel" tabindex="0" aria-label="Galeria de fotos" class="gallery-track no-scrollbar">
+            <img class="gallery-slide" src="images/group_photo.webp" alt="O grupo LumenVox">
+            <img class="gallery-slide" loading="lazy"
               src="https://images.pexels.com/photos/10970319/pexels-photo-10970319.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200"
               alt="Atuação musical numa cerimónia de casamento">
-            <img
-              class="snap-center shrink-0 w-full md:w-2/3 h-72 md:h-[28rem] object-cover rounded-sm shadow-md programme-border"
-              loading="lazy"
+            <img class="gallery-slide" loading="lazy"
               src="https://images.pexels.com/photos/7317679/pexels-photo-7317679.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200"
               alt="Cerimónia fúnebre com velas e flores">
-            <img
-              class="snap-center shrink-0 w-full md:w-2/3 h-72 md:h-[28rem] object-cover rounded-sm shadow-md programme-border"
-              loading="lazy"
+            <img class="gallery-slide" loading="lazy"
               src="https://images.pexels.com/photos/8374819/pexels-photo-8374819.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200"
               alt="Cerimónia de batizado numa igreja">
           </div>
-          <button id="car-prev" type="button" aria-label="Foto anterior"
-            class="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-stone-900/60 hover:bg-stone-900/80 text-amber-100 flex items-center justify-center transition">
-            <i data-lucide="chevron-left" style="width:22px;height:22px;"></i>
-          </button>
-          <button id="car-next" type="button" aria-label="Foto seguinte"
-            class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-stone-900/60 hover:bg-stone-900/80 text-amber-100 flex items-center justify-center transition">
-            <i data-lucide="chevron-right" style="width:22px;height:22px;"></i>
-          </button>
+          <div class="gallery-controls">
+            <button id="car-prev" type="button" class="gallery-btn" aria-label="Foto anterior">
+              <i data-lucide="chevron-left"></i>
+            </button>
+            <div id="car-dots" class="car-dots"></div>
+            <button id="car-next" type="button" class="gallery-btn" aria-label="Foto seguinte">
+              <i data-lucide="chevron-right"></i>
+            </button>
+          </div>
         </div>
-        <div id="car-dots" class="flex justify-center gap-2 mt-5"></div>
       </div>
     </section>
     <div class="ornament">
@@ -799,22 +1404,26 @@
     const carousel = document.getElementById('carousel');
     const slides = [...carousel.children];
     const dotsBox = document.getElementById('car-dots');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let slideIdx = 0;
 
     const dots = slides.map((_, i) => {
       const dot = document.createElement('button');
       dot.type = 'button';
       dot.setAttribute('aria-label', `Ir para a foto ${i + 1}`);
-      dot.className = 'w-2.5 h-2.5 rounded-full transition';
-      dot.addEventListener('click', () => goTo(i));
+      dot.className = 'car-dot';
+      dot.addEventListener('click', () => navigate(i));
       dotsBox.appendChild(dot);
       return dot;
     });
 
     function setActive(i) {
       slideIdx = i;
+      slides.forEach((slide, j) => slide.classList.toggle('is-active', j === i));
       dots.forEach((dot, j) => {
-        dot.style.background = j === i ? 'rgb(146, 64, 14)' : 'rgb(214, 211, 209)';
+        dot.classList.toggle('is-active', j === i);
+        if (j === i) dot.setAttribute('aria-current', 'true');
+        else dot.removeAttribute('aria-current');
       });
     }
 
@@ -823,16 +1432,27 @@
       const slide = slides[n];
       carousel.scrollTo({
         left: slide.offsetLeft - (carousel.clientWidth - slide.clientWidth) / 2,
-        behavior: 'smooth',
+        behavior: reduceMotion ? 'auto' : 'smooth',
       });
       setActive(n);
     }
 
-    document.getElementById('car-prev').addEventListener('click', () => goTo(slideIdx - 1));
-    document.getElementById('car-next').addEventListener('click', () => goTo(slideIdx + 1));
+    // Mudança feita pelo visitante: muda de foto e recomeça a contagem do avanço automático
+    function navigate(i) {
+      goTo(i);
+      restartAutoplay();
+    }
+
+    // Clicar numa foto vizinha (esbatida) traz essa foto para o centro
+    slides.forEach((slide, i) => slide.addEventListener('click', () => {
+      if (i !== slideIdx) navigate(i);
+    }));
+
+    document.getElementById('car-prev').addEventListener('click', () => navigate(slideIdx - 1));
+    document.getElementById('car-next').addEventListener('click', () => navigate(slideIdx + 1));
     carousel.addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft') goTo(slideIdx - 1);
-      if (e.key === 'ArrowRight') goTo(slideIdx + 1);
+      if (e.key === 'ArrowLeft') navigate(slideIdx - 1);
+      if (e.key === 'ArrowRight') navigate(slideIdx + 1);
     });
 
     // Atualiza o ponto ativo quando se desliza com o dedo/trackpad
@@ -843,34 +1463,52 @@
     }, { root: carousel, threshold: 0.6 });
     slides.forEach(slide => carouselObserver.observe(slide));
 
-    // Avanço automático a cada 5s, pausado ao interagir
+    // Avanço automático a cada 5s. Fica em pausa com o foco do teclado lá dentro ou com o
+    // dedo no ecrã; ao retomar, e a cada mudança manual, a contagem começa do zero.
     let autoplay = null;
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const pauses = new Set();
 
-    function startAutoplay() {
-      if (reduceMotion || autoplay) return;
+    function restartAutoplay() {
+      clearInterval(autoplay);
+      autoplay = null;
+      if (reduceMotion || pauses.size) return;
       autoplay = setInterval(() => goTo(slideIdx + 1), 5000);
     }
 
-    function stopAutoplay() {
-      clearInterval(autoplay);
-      autoplay = null;
+    function pauseAutoplay(reason) {
+      pauses.add(reason);
+      restartAutoplay();
+    }
+
+    function resumeAutoplay(reason) {
+      pauses.delete(reason);
+      restartAutoplay();
     }
 
     const carouselWrap = carousel.parentElement;
-    carouselWrap.addEventListener('mouseenter', stopAutoplay);
-    carouselWrap.addEventListener('mouseleave', startAutoplay);
-    carouselWrap.addEventListener('focusin', stopAutoplay);
-    carouselWrap.addEventListener('focusout', startAutoplay);
-    carousel.addEventListener('touchstart', stopAutoplay, { passive: true });
+    // Sem pausa com o rato por cima: quem clica nas setas fica com o rato na galeria e a
+    // contagem só recomeçaria ao sair. Assim, depois de uma mudança manual, são sempre 5s.
+    // Só o foco do teclado pausa; um clique ou toque num botão não deve deixar o carrossel parado
+    carouselWrap.addEventListener('focusin', e => {
+      if (e.target.matches(':focus-visible')) pauseAutoplay('teclado');
+    });
+    carouselWrap.addEventListener('focusout', e => {
+      if (!carouselWrap.contains(e.relatedTarget)) resumeAutoplay('teclado');
+    });
+    // Deslizar com o dedo: pausa enquanto toca e recomeça a contagem ao largar
+    carouselWrap.addEventListener('touchstart', () => pauseAutoplay('toque'), { passive: true });
+    carouselWrap.addEventListener('touchend', () => resumeAutoplay('toque'));
+    carouselWrap.addEventListener('touchcancel', () => resumeAutoplay('toque'));
 
     setActive(0);
-    startAutoplay();
+    restartAutoplay();
 
     // Efeito de paralaxe no cabeçalho ao descer a página
     const hero = document.getElementById('hero');
     const heroImg = document.getElementById('hero-img');
-    const heroLogo = document.getElementById('hero-logo');
+    // O conteúdo inteiro (e não só o logótipo) move-se: os filhos têm animação de entrada em CSS,
+    // que se sobreporia a um transform inline posto neles
+    const heroContent = document.getElementById('hero-content');
     const heroOverlay = document.getElementById('hero-overlay');
     let heroTicking = false;
 
@@ -879,14 +1517,24 @@
       const progress = Math.min(Math.max(window.scrollY / hero.offsetHeight, 0), 1);
 
       heroImg.style.transform = `translate3d(0, ${progress * 35}%, 0) scale(${1 + progress * 0.15})`;
-      heroLogo.style.transform = `translate3d(0, ${progress * -60}px, 0) scale(${1 - progress * 0.1})`;
-      heroLogo.style.opacity = 1 - progress * 1.4;
+      heroContent.style.transform = `translate3d(0, ${progress * -60}px, 0) scale(${1 - progress * 0.1})`;
+      heroContent.style.opacity = 1 - progress * 1.4;
       heroOverlay.style.backgroundColor = `rgba(10, 8, 5, ${progress * 0.5})`;
     }
 
+    // Navegação transparente por cima do cabeçalho; ganha fundo ao descer
+    const siteNav = document.getElementById('site-nav');
+
+    function updateNav() {
+      siteNav.classList.toggle('is-top', window.scrollY < 24);
+    }
+
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+
     if (!reduceMotion) {
       heroImg.style.willChange = 'transform';
-      heroLogo.style.willChange = 'transform, opacity';
+      heroContent.style.willChange = 'transform, opacity';
       window.addEventListener('scroll', () => {
         if (!heroTicking) {
           heroTicking = true;
