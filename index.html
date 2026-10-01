@@ -414,6 +414,83 @@
       }
     }
 
+    /* Botão flutuante de pausa: aparece quando a faixa a tocar sai do ecrã */
+    .float-pause {
+      position: fixed;
+      right: 1.25rem;
+      bottom: 1.25rem;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.4rem 1.1rem 0.4rem 0.4rem;
+      border-radius: 9999px;
+      background: #292524;
+      border: 1px solid rgba(191, 155, 64, 0.45);
+      box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.55);
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #faf6ec;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(0.75rem);
+      transition: opacity .2s, transform .2s, visibility .2s, border-color .2s;
+    }
+
+    .float-pause.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+
+    .float-pause:hover {
+      border-color: #d4b86a;
+    }
+
+    .float-pause:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(191, 155, 64, 0.35);
+    }
+
+    .float-pause-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      background: #bf9b40;
+      color: #fff;
+      animation: pulse-glow 1.5s infinite;
+    }
+
+    .float-pause-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    @media (max-width: 480px) {
+      .float-pause {
+        right: 1rem;
+        bottom: 1rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .float-pause {
+        transition: none;
+      }
+
+      .float-pause-icon {
+        animation: none;
+      }
+    }
+
     .ornament {
       display: flex;
       align-items: center;
@@ -946,7 +1023,8 @@
             loading="lazy" src="images/group_photo.webp" alt="Fotografia do grupo LumenVox">
         </div>
         <div>
-          <h2 data-template-id="about-title" class="canva-text section-label section-label--start section-label--on-light mb-6">Quem somos</h2>
+          <h2 data-template-id="about-title"
+            class="canva-text section-label section-label--start section-label--on-light mb-6">Quem somos</h2>
           <p data-template-id="about-text" class="canva-text about-lead">
             LumenVox é um grupo unido pela paixão pela música e pela vontade de transformar momentos em emoção.
           </p>
@@ -1004,11 +1082,9 @@
       <div class="max-w-3xl mx-auto">
         <h2 data-template-id="audio-title" class="canva-text section-label section-label--on-light mb-4">Ouça o nosso
           repertório</h2>
-        <p data-template-id="audio-subtitle" class="canva-text text-center text-stone-500 mb-10"
-          style="color: rgb(120, 113, 108); font-weight: 400; font-style: normal; font-size: 17px;">Algumas amostras do
-          nosso trabalho em cerimónias</p>
+        <br>
         <ol class="track-list" id="audio-list">
-          <li class="track" data-src="audio/Eis_me_aqui_Marco_Frisina-.mp3">
+          <li class="track" data-src="audio/Eis_me_aqui.mp3">
             <div class="track-row">
               <button type="button" class="track-btn" aria-label="Ouvir Eis-me Aqui">
                 <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
@@ -1031,7 +1107,29 @@
                 aria-label="Posição da faixa">
             </div>
           </li>
-          <li class="track" data-src="audio/Salmo_Felizes_Os_que_Que_Seguem_os_seus_caminhos-.mp3">
+          <li class="track" data-src="audio/Senhor_tende_piedade_de_nos.mp3">
+            <div class="track-row">
+              <button type="button" class="track-btn" aria-label="Ouvir Senhor, tende piedade de nós">
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
+              </button>
+              <div class="flex-1 min-w-0">
+                <p data-template-id="track-10-title" class="track-title">Senhor, tende piedade de nós</p>
+                <p class="track-meta"><span class="track-tag">Ato penitencial</span></p>
+              </div>
+              <span class="track-duration">–:––</span>
+            </div>
+            <div class="track-progress" hidden>
+              <span class="track-time">0:00</span>
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
+            </div>
+          </li>
+          <li class="track" data-src="audio/Felizes_os_que_amam_o_Senhor.mp3">
             <div class="track-row">
               <button type="button" class="track-btn" aria-label="Ouvir Felizes os que amam o Senhor">
                 <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
@@ -1043,6 +1141,28 @@
               </button>
               <div class="flex-1 min-w-0">
                 <p data-template-id="track-2-title" class="track-title">Felizes os que amam o Senhor</p>
+                <p class="track-meta"><span class="track-tag">Salmo</span></p>
+              </div>
+              <span class="track-duration">–:––</span>
+            </div>
+            <div class="track-progress" hidden>
+              <span class="track-time">0:00</span>
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
+            </div>
+          </li>
+          <li class="track" data-src="audio/Felizes_os_que_andam_nos_seus_caminhos.mp3">
+            <div class="track-row">
+              <button type="button" class="track-btn" aria-label="Ouvir Felizes os que andam nos seus caminhos">
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
+              </button>
+              <div class="flex-1 min-w-0">
+                <p data-template-id="track-11-title" class="track-title">Felizes os que andam nos seus caminhos</p>
                 <p class="track-meta"><span class="track-tag">Salmo</span></p>
               </div>
               <span class="track-duration">–:––</span>
@@ -1075,9 +1195,9 @@
                 aria-label="Posição da faixa">
             </div>
           </li>
-          <li class="track" data-src="audio/Aleluia_J.Roux.mp3">
+          <li class="track" data-src="audio/Aleluia_Coro.mp3">
             <div class="track-row">
-              <button type="button" class="track-btn" aria-label="Ouvir Aleluia">
+              <button type="button" class="track-btn" aria-label="Ouvir Aleluia (coro)">
                 <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M8 5.5v13l10.5-6.5z" />
                 </svg>
@@ -1086,9 +1206,8 @@
                 </svg>
               </button>
               <div class="flex-1 min-w-0">
-                <p data-template-id="track-4-title" class="track-title">Aleluia</p>
-                <p class="track-meta"><span class="track-tag">Aclamação</span><span class="track-composer">J.
-                    Roux</span></p>
+                <p data-template-id="track-4-title" class="track-title">Aleluia (coro)</p>
+                <p class="track-meta"><span class="track-tag">Aclamação</span></p>
               </div>
               <span class="track-duration">–:––</span>
             </div>
@@ -1098,7 +1217,29 @@
                 aria-label="Posição da faixa">
             </div>
           </li>
-          <li class="track" data-src="audio/Ofertório_Entrega.mp3">
+          <li class="track" data-src="audio/Aleluia_Marcelo.mp3">
+            <div class="track-row">
+              <button type="button" class="track-btn" aria-label="Ouvir Aleluia (Marcelo)">
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
+              </button>
+              <div class="flex-1 min-w-0">
+                <p data-template-id="track-12-title" class="track-title">Aleluia (Marcelo)</p>
+                <p class="track-meta"><span class="track-tag">Aclamação</span></p>
+              </div>
+              <span class="track-duration">–:––</span>
+            </div>
+            <div class="track-progress" hidden>
+              <span class="track-time">0:00</span>
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
+            </div>
+          </li>
+          <li class="track" data-src="audio/Entrega.mp3">
             <div class="track-row">
               <button type="button" class="track-btn" aria-label="Ouvir Entrega">
                 <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
@@ -1142,7 +1283,7 @@
                 aria-label="Posição da faixa">
             </div>
           </li>
-          <li class="track" data-src="audio/Pelos_prados_e_campinas-.mp3">
+          <li class="track" data-src="audio/Pelos_prados_e_campinas.mp3">
             <div class="track-row">
               <button type="button" class="track-btn" aria-label="Ouvir Pelos prados e campinas">
                 <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
@@ -1187,7 +1328,29 @@
                 aria-label="Posição da faixa">
             </div>
           </li>
-          <li class="track" data-src="audio/Construi_Vossa_Casa_Sobre_a_Rocha-.mp3">
+          <li class="track" data-src="audio/Mae_olha_para_mim.mp3">
+            <div class="track-row">
+              <button type="button" class="track-btn" aria-label="Ouvir Mãe, olha para mim">
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
+              </button>
+              <div class="flex-1 min-w-0">
+                <p data-template-id="track-13-title" class="track-title">Mãe, olha para mim</p>
+                <p class="track-meta"><span class="track-tag">Homenagem a Maria</span></p>
+              </div>
+              <span class="track-duration">–:––</span>
+            </div>
+            <div class="track-progress" hidden>
+              <span class="track-time">0:00</span>
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
+            </div>
+          </li>
+          <li class="track" data-src="audio/Construi_a_vossa_casa.mp3">
             <div class="track-row">
               <button type="button" class="track-btn" aria-label="Ouvir Construí vossa casa sobre a rocha">
                 <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
@@ -1209,6 +1372,111 @@
                 aria-label="Posição da faixa">
             </div>
           </li>
+          <li class="track" data-src="audio/Cantarei.mp3">
+            <div class="track-row">
+              <button type="button" class="track-btn" aria-label="Ouvir Cantarei">
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
+              </button>
+              <div class="flex-1 min-w-0">
+                <p data-template-id="track-14-title" class="track-title">Cantarei</p>
+              </div>
+              <span class="track-duration">–:––</span>
+            </div>
+            <div class="track-progress" hidden>
+              <span class="track-time">0:00</span>
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
+            </div>
+          </li>
+          <li class="track" data-src="audio/Eu_te_amarei.mp3">
+            <div class="track-row">
+              <button type="button" class="track-btn" aria-label="Ouvir Eu te amarei">
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
+              </button>
+              <div class="flex-1 min-w-0">
+                <p data-template-id="track-15-title" class="track-title">Eu te amarei</p>
+              </div>
+              <span class="track-duration">–:––</span>
+            </div>
+            <div class="track-progress" hidden>
+              <span class="track-time">0:00</span>
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
+            </div>
+          </li>
+          <li class="track" data-src="audio/Via_de_amor.mp3">
+            <div class="track-row">
+              <button type="button" class="track-btn" aria-label="Ouvir Via de amor">
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
+              </button>
+              <div class="flex-1 min-w-0">
+                <p data-template-id="track-16-title" class="track-title">Via de amor</p>
+              </div>
+              <span class="track-duration">–:––</span>
+            </div>
+            <div class="track-progress" hidden>
+              <span class="track-time">0:00</span>
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
+            </div>
+          </li>
+          <li class="track" data-src="audio/Dona.mp3">
+            <div class="track-row">
+              <button type="button" class="track-btn" aria-label="Ouvir Dona">
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
+              </button>
+              <div class="flex-1 min-w-0">
+                <p data-template-id="track-17-title" class="track-title">Dona</p>
+              </div>
+              <span class="track-duration">–:––</span>
+            </div>
+            <div class="track-progress" hidden>
+              <span class="track-time">0:00</span>
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
+            </div>
+          </li>
+          <li class="track" data-src="audio/Hasta_mi_final.mp3">
+            <div class="track-row">
+              <button type="button" class="track-btn" aria-label="Ouvir Hasta mi final">
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5.5v13l10.5-6.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
+              </button>
+              <div class="flex-1 min-w-0">
+                <p data-template-id="track-18-title" class="track-title">Hasta mi final</p>
+              </div>
+              <span class="track-duration">–:––</span>
+            </div>
+            <div class="track-progress" hidden>
+              <span class="track-time">0:00</span>
+              <input type="range" class="track-seek" min="0" max="100" step="0.1" value="0"
+                aria-label="Posição da faixa">
+            </div>
+          </li>
         </ol>
       </div>
     </section>
@@ -1218,7 +1486,8 @@
     <section id="galeria" data-template-id="gallery-section" class="canva-section py-16 px-4"
       style="background: rgb(245, 240, 228);">
       <div class="max-w-6xl mx-auto">
-        <h2 data-template-id="gallery-title" class="canva-text section-label section-label--on-light mb-10">Momentos</h2>
+        <h2 data-template-id="gallery-title" class="canva-text section-label section-label--on-light mb-10">Momentos
+        </h2>
         <!-- Para adicionar fotos: coloque o ficheiro em images/galeria/ e copie uma linha <img class="gallery-slide"> -->
         <div class="gallery">
           <div id="carousel" tabindex="0" aria-label="Galeria de fotos" class="gallery-track no-scrollbar">
@@ -1311,6 +1580,14 @@
       style="color: rgb(168, 162, 158); font-weight: 400; font-style: normal; font-size: 17px;">© 2026 LumenVox — Música
       para os momentos mais importantes</p>
   </footer>
+  <button type="button" id="float-pause" class="float-pause">
+    <span class="float-pause-icon">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+      </svg>
+    </span>
+    Pausar a música
+  </button>
   <script>
     lucide.createIcons();
 
@@ -1324,6 +1601,26 @@
 
     const players = new Map();
     let currentTrack = null;
+
+    // Botão flutuante: só aparece com música a tocar e a faixa fora do ecrã
+    const floatPause = document.getElementById('float-pause');
+    const trackInView = new Map();
+
+    function updateFloatPause() {
+      const audio = currentTrack && players.get(currentTrack);
+      const show = !!audio && !audio.paused && !trackInView.get(currentTrack);
+      floatPause.classList.toggle('is-visible', show);
+    }
+
+    floatPause.addEventListener('click', () => {
+      if (currentTrack) players.get(currentTrack).pause();
+    });
+
+    // Margem de topo = altura da nav fixa, que tapa a faixa
+    const trackObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => trackInView.set(entry.target, entry.isIntersecting));
+      updateFloatPause();
+    }, { rootMargin: '-64px 0px 0px 0px' });
 
     function resetTrack(track) {
       const audio = players.get(track);
@@ -1345,6 +1642,7 @@
       audio.preload = 'metadata';
       audio.src = track.dataset.src;
       players.set(track, audio);
+      trackObserver.observe(track);
 
       audio.addEventListener('loadedmetadata', () => {
         duration.textContent = formatTime(audio.duration);
@@ -1360,16 +1658,19 @@
       audio.addEventListener('play', () => {
         track.classList.add('is-playing');
         btn.setAttribute('aria-label', `Pausar ${title}`);
+        updateFloatPause();
       });
 
       audio.addEventListener('pause', () => {
         track.classList.remove('is-playing');
         btn.setAttribute('aria-label', `Ouvir ${title}`);
+        updateFloatPause();
       });
 
       audio.addEventListener('ended', () => {
         resetTrack(track);
         currentTrack = null;
+        updateFloatPause();
       });
 
       audio.addEventListener('error', () => {
