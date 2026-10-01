@@ -753,6 +753,8 @@
 
     html {
       scroll-behavior: smooth;
+      /* Compensa a nav fixa (~65px) ao saltar para as âncoras */
+      scroll-padding-top: 4.25rem;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -974,6 +976,61 @@
       box-shadow: 0 0 0 4px rgba(191, 155, 64, 0.35);
     }
 
+    /* Redes sociais por baixo do título do Contacto */
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.65rem 1.4rem;
+      background: #fffdf8;
+      border: 1px solid #e0d2a8;
+      border-radius: 999px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #292524;
+      transition: transform .2s, border-color .2s, box-shadow .2s, color .2s;
+    }
+
+    .social-link svg {
+      width: 1.1rem;
+      height: 1.1rem;
+      color: #bf9b40;
+    }
+
+    .social-link:hover {
+      border-color: #bf9b40;
+      color: #a16207;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px -12px rgba(60, 40, 10, 0.35);
+    }
+
+    .social-link:focus-visible {
+      outline: none;
+      border-color: #bf9b40;
+      box-shadow: 0 0 0 4px rgba(191, 155, 64, 0.3);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .social-link {
+        transition: none;
+      }
+
+      .social-link:hover {
+        transform: none;
+      }
+    }
+
     .no-scrollbar {
       scrollbar-width: none;
     }
@@ -990,8 +1047,8 @@
       <a href="#" class="nav-logo flex items-center"><img src="images/white_lettering_logo.png" alt="LumenVox"
           class="h-10 w-auto"></a>
       <div class="hidden md:flex gap-6 font-sans-alt text-sm"><a href="#sobre"
-          class="nav-link text-stone-300 hover:text-amber-200 transition">Sobre</a> <a href="#servicos"
-          class="nav-link text-stone-300 hover:text-amber-200 transition">Serviços</a> <a href="#repertorio"
+          class="nav-link text-stone-300 hover:text-amber-200 transition">Quem somos</a> <a href="#servicos"
+          class="nav-link text-stone-300 hover:text-amber-200 transition">O que fazemos</a> <a href="#repertorio"
           class="nav-link text-stone-300 hover:text-amber-200 transition">Repertório</a> <a href="#galeria"
           class="nav-link text-stone-300 hover:text-amber-200 transition">Galeria</a> <a href="#contacto"
           class="nav-link text-stone-300 hover:text-amber-200 transition">Contacto</a>
@@ -1060,7 +1117,15 @@
           </article>
           <article data-template-id="svc-funerais" class="canva-card service-card">
             <span class="service-num">03</span>
-            <div class="service-icon"><i data-lucide="gem"></i></div>
+            <div class="service-icon">
+              <!-- Anel com pedra (não existe no Lucide 0.263) -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <circle cx="12" cy="14.5" r="6" />
+                <path d="M9.5 5 10.5 3.5h3L14.5 5 12 8.5Z" />
+                <path d="M9.5 5h5" />
+              </svg>
+            </div>
             <h3 data-template-id="svc-funerais-title" class="canva-text service-title">Bodas</h3>
             <p data-template-id="svc-funerais-desc" class="canva-text service-desc">Música e
               celebração para assinalar a renovação do amor e dos votos de uma vida partilhada.</p>
@@ -1521,9 +1586,14 @@
       <div class="max-w-2xl mx-auto">
         <h2 data-template-id="contact-title" class="canva-text section-label section-label--on-light mb-4">Entre em
           contacto</h2>
-        <p data-template-id="contact-subtitle" class="canva-text text-center text-stone-500 mb-10"
-          style="color: rgb(120, 113, 108); font-weight: 400; font-style: normal; font-size: 17px;">Teremos todo o gosto
-          em preparar um programa musical à medida da sua cerimónia.</p>
+        <div class="social-links">
+          <a href="#" class="social-link" target="_blank" rel="noopener">
+            <i data-lucide="instagram"></i>Instagram
+          </a>
+          <a href="#" class="social-link" target="_blank" rel="noopener">
+            <i data-lucide="facebook"></i>Facebook
+          </a>
+        </div>
         <form action="https://formspree.io/f/xdavwbzg" method="POST" class="contact-card p-6 sm:p-10 space-y-6">
 
           <div class="grid gap-6 sm:grid-cols-2">
@@ -1546,7 +1616,7 @@
               <option value="">Selecione o tipo...</option>
               <option>Casamento</option>
               <option>Batizado</option>
-              <option>Casamento + Batisado</option>
+              <option>Casamento + Batizado</option>
               <option>Bodas</option>
               <option>Outro</option>
             </select>
