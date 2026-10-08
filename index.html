@@ -765,12 +765,16 @@
 
     /* Galeria */
     .gallery-track {
+      /* referência do offsetLeft das fotos (usado no JS para as centrar); sem isto conta a
+         partir da página e, em ecrãs largos, o deslize passava uma foto à frente */
+      position: relative;
       display: flex;
       gap: 1rem;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
-      /* margem lateral para a 1.ª e a última foto ficarem centradas; em baixo, espaço para a sombra */
-      padding: 0.5rem 7.5% 2rem;
+      /* margem lateral = (100% − largura da foto) / 2, para a 1.ª e a última foto ficarem
+         centradas; em baixo, espaço para a sombra */
+      padding: 0.5rem 13.875% 2rem;
       border-radius: 1rem;
       outline: none;
     }
@@ -779,17 +783,45 @@
       box-shadow: 0 0 0 4px rgba(191, 155, 64, 0.35);
     }
 
+    /* Arrastar com o rato (JS); com o dedo, o deslize é o nativo */
+    @media (hover: hover) and (pointer: fine) {
+      .gallery-track {
+        cursor: grab;
+      }
+    }
+
+    /* Durante o arrasto o snap fica desligado, senão a faixa não acompanha o rato */
+    .gallery-track.is-dragging {
+      scroll-snap-type: none;
+      cursor: grabbing;
+      user-select: none;
+    }
+
+    .gallery-track.is-dragging .gallery-slide {
+      cursor: grabbing;
+    }
+
     .gallery-slide {
       flex-shrink: 0;
-      width: 85%;
+      /* a % conta sobre a faixa já sem as margens laterais: 100% = a largura entre elas
+         (72.25% da galeria; 44.4% a partir de md) */
+      width: 100%;
       height: 18rem;
       object-fit: cover;
       scroll-snap-align: center;
+      /* um deslize rápido com o dedo para na foto seguinte em vez de passar várias */
+      scroll-snap-stop: always;
+      -webkit-user-drag: none;
       border-radius: 1rem;
       box-shadow: 0 1px 2px rgba(60, 40, 10, 0.04), 0 20px 40px -16px rgba(60, 40, 10, 0.35);
       opacity: 0.45;
       transform: scale(0.94);
       transition: opacity .5s ease, transform .5s ease;
+    }
+
+    /* fotos com o motivo junto à margem direita: o corte do object-fit tira só do lado esquerdo */
+    .gallery-slide--right {
+      object-position: right center;
     }
 
     .gallery-slide:not(.is-active) {
@@ -803,12 +835,11 @@
 
     @media (min-width: 768px) {
       .gallery-track {
-        padding-left: 16.666667%;
-        padding-right: 16.666667%;
+        padding-left: 27.777778%;
+        padding-right: 27.777778%;
       }
 
       .gallery-slide {
-        width: 66.666667%;
         height: 28rem;
       }
     }
@@ -1145,7 +1176,8 @@
     </div><!-- Repertório -->
     <section id="repertorio" class="py-16 px-4">
       <div class="max-w-3xl mx-auto">
-        <h2 data-template-id="audio-title" class="canva-text section-label section-label--on-light mb-4">Ouça o nosso
+        <h2 data-template-id="audio-title" class="canva-text section-label section-label--on-light mb-4">Ouça uma
+          seleção do nosso
           repertório</h2>
         <br>
         <ol class="track-list" id="audio-list">
@@ -1553,19 +1585,21 @@
       <div class="max-w-6xl mx-auto">
         <h2 data-template-id="gallery-title" class="canva-text section-label section-label--on-light mb-10">Momentos
         </h2>
-        <!-- Para adicionar fotos: coloque o ficheiro em images/galeria/ e copie uma linha <img class="gallery-slide"> -->
+        <!-- Para adicionar fotos: coloque o ficheiro em images/gallery/ e copie uma linha <img class="gallery-slide"> -->
         <div class="gallery">
           <div id="carousel" tabindex="0" aria-label="Galeria de fotos" class="gallery-track no-scrollbar">
-            <img class="gallery-slide" src="images/group_photo.webp" alt="O grupo LumenVox">
-            <img class="gallery-slide" loading="lazy"
-              src="https://images.pexels.com/photos/10970319/pexels-photo-10970319.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200"
-              alt="Atuação musical numa cerimónia de casamento">
-            <img class="gallery-slide" loading="lazy"
-              src="https://images.pexels.com/photos/7317679/pexels-photo-7317679.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200"
-              alt="Cerimónia fúnebre com velas e flores">
-            <img class="gallery-slide" loading="lazy"
-              src="https://images.pexels.com/photos/8374819/pexels-photo-8374819.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200"
-              alt="Cerimónia de batizado numa igreja">
+            <img class="gallery-slide" loading="lazy" src="images/gallery/Image_04.jpg"
+              alt="Violinista a tocar no coro alto de uma igreja com talha dourada">
+            <img class="gallery-slide" loading="lazy" src="images/gallery/Image_03.jpg"
+              alt="Mãos a tocar piano digital">
+            <img class="gallery-slide" loading="lazy" src="images/gallery/Image_05.jpg"
+              alt="Partituras em tablets numa estante de música">
+            <img class="gallery-slide" loading="lazy" src="images/gallery/Image_07.jpg"
+              alt="Músico de costas voltado para o altar-mor em talha dourada">
+            <img class="gallery-slide gallery-slide--right" loading="lazy" src="images/gallery/Image_08.jpg"
+              alt="Cantora a ler a partitura num tablet junto à balaustrada do coro alto">
+            <img class="gallery-slide" loading="lazy" src="images/gallery/Image_06.jpg"
+              alt="Pianista a tocar no coro alto de uma igreja">
           </div>
           <div class="gallery-controls">
             <button id="car-prev" type="button" class="gallery-btn" aria-label="Foto anterior">
@@ -1587,10 +1621,12 @@
         <h2 data-template-id="contact-title" class="canva-text section-label section-label--on-light mb-4">Entre em
           contacto</h2>
         <div class="social-links">
-          <a href="#" class="social-link" target="_blank" rel="noopener">
+          <a href="https://www.instagram.com/lumenvox_coro?stkn=MXdsbXR0ZngxOXg4Yg%3D%3D&amp;utm_source=qr"
+            class="social-link" target="_blank" rel="noopener">
             <i data-lucide="instagram"></i>Instagram
           </a>
-          <a href="#" class="social-link" target="_blank" rel="noopener">
+          <a href="https://www.facebook.com/share/1JJdGsTZN8/?mibextid=wwXIfr" class="social-link" target="_blank"
+            rel="noopener">
             <i data-lucide="facebook"></i>Facebook
           </a>
         </div>
@@ -1796,9 +1832,14 @@
       });
     }
 
+    // Foto para onde o carrossel está a deslizar sozinho (setas, pontos, avanço automático).
+    // Enquanto não lá chega, as fotos por onde passa não acendem o ponto delas.
+    let scrollTarget = null;
+
     function goTo(i) {
       const n = (i + slides.length) % slides.length;
       const slide = slides[n];
+      scrollTarget = n;
       carousel.scrollTo({
         left: slide.offsetLeft - (carousel.clientWidth - slide.clientWidth) / 2,
         behavior: reduceMotion ? 'auto' : 'smooth',
@@ -1824,13 +1865,30 @@
       if (e.key === 'ArrowRight') navigate(slideIdx + 1);
     });
 
-    // Atualiza o ponto ativo quando se desliza com o dedo/trackpad
-    const carouselObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) setActive(slides.indexOf(entry.target));
+    // Atualiza o ponto ativo ao deslizar (dedo, trackpad, rato): a ativa é a foto mais perto do
+    // centro. Não depende de quanto das vizinhas está à vista (com um limiar de visibilidade, a
+    // 2.ª foto, que espreita à direita, chegava a passar por ativa ao carregar).
+    let scrollFrame = null;
+    carousel.addEventListener('scroll', () => {
+      if (scrollFrame) return;
+      scrollFrame = requestAnimationFrame(() => {
+        scrollFrame = null;
+        const i = nearestSlide();
+        if (scrollTarget !== null) {
+          if (i !== scrollTarget) return;
+          scrollTarget = null;
+        }
+        if (i !== slideIdx) setActive(i);
       });
-    }, { root: carousel, threshold: 0.6 });
-    slides.forEach(slide => carouselObserver.observe(slide));
+    }, { passive: true });
+
+    // O visitante a mexer na faixa (dedo, rato, trackpad) ou o fim do deslize voltam a deixar
+    // o ponto seguir a foto do centro; cobre também o caso de goTo() para a foto já centrada
+    const releaseScrollTarget = () => { scrollTarget = null; };
+    carousel.addEventListener('scrollend', releaseScrollTarget);
+    carousel.addEventListener('touchstart', releaseScrollTarget, { passive: true });
+    carousel.addEventListener('pointerdown', releaseScrollTarget);
+    carousel.addEventListener('wheel', releaseScrollTarget, { passive: true });
 
     // Avanço automático a cada 5s. Fica em pausa com o foco do teclado lá dentro ou com o
     // dedo no ecrã; ao retomar, e a cada mudança manual, a contagem começa do zero.
@@ -1868,6 +1926,79 @@
     carouselWrap.addEventListener('touchstart', () => pauseAutoplay('toque'), { passive: true });
     carouselWrap.addEventListener('touchend', () => resumeAutoplay('toque'));
     carouselWrap.addEventListener('touchcancel', () => resumeAutoplay('toque'));
+
+    // Arrastar com o rato. Ao largar, vai para a foto mais perto do centro; se o arrasto foi
+    // curto mas passou dos 50px, avança/recua uma. Sem dar a volta nas pontas (ao contrário das setas).
+    const drag = { active: false, moved: false, startX: 0, startScroll: 0, startIdx: 0 };
+
+    function nearestSlide() {
+      const centre = carousel.scrollLeft + carousel.clientWidth / 2;
+      let best = 0;
+      slides.forEach((slide, i) => {
+        const dist = Math.abs(slide.offsetLeft + slide.offsetWidth / 2 - centre);
+        const bestDist = Math.abs(slides[best].offsetLeft + slides[best].offsetWidth / 2 - centre);
+        if (dist < bestDist) best = i;
+      });
+      return best;
+    }
+
+    // O snap só volta depois de o deslize suave acabar, senão interrompe-o
+    function restoreSnap() {
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        carousel.classList.remove('is-dragging');
+      };
+      carousel.addEventListener('scrollend', finish, { once: true });
+      setTimeout(finish, 800);
+    }
+
+    carousel.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      Object.assign(drag, {
+        active: true, moved: false, startX: e.clientX,
+        startScroll: carousel.scrollLeft, startIdx: slideIdx,
+      });
+      pauseAutoplay('rato');
+    });
+
+    carousel.addEventListener('pointermove', e => {
+      if (!drag.active) return;
+      const dx = e.clientX - drag.startX;
+      if (!drag.moved && Math.abs(dx) < 5) return;
+      if (!drag.moved) {
+        drag.moved = true;
+        carousel.classList.add('is-dragging');
+        carousel.setPointerCapture(e.pointerId);
+      }
+      carousel.scrollLeft = drag.startScroll - dx;
+    });
+
+    function endDrag(e) {
+      if (!drag.active) return;
+      drag.active = false;
+      if (drag.moved) {
+        const dx = e.type === 'pointercancel' ? 0 : e.clientX - drag.startX;
+        let target = nearestSlide();
+        if (target === drag.startIdx && Math.abs(dx) > 50) target -= Math.sign(dx);
+        goTo(Math.max(0, Math.min(slides.length - 1, target)));
+        restoreSnap();
+      }
+      resumeAutoplay('rato');
+    }
+
+    carousel.addEventListener('pointerup', endDrag);
+    carousel.addEventListener('pointercancel', endDrag);
+    // Depois de arrastar, o clique que o browser dispara ao largar não deve abrir a foto vizinha
+    carousel.addEventListener('click', e => {
+      if (drag.moved) {
+        e.stopPropagation();
+        drag.moved = false;
+      }
+    }, true);
+    // Firefox não respeita -webkit-user-drag: impede o arrasto nativo da imagem
+    carousel.addEventListener('dragstart', e => e.preventDefault());
 
     setActive(0);
     restartAutoplay();
